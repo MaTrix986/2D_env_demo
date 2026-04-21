@@ -1,0 +1,34 @@
+# src/mr_sim/core/world.py
+from mr_sim.agents.robot import Robot
+
+class World:
+    def __init__(self, dt=0.1):
+        print("Initialized!")
+
+        self.agents = []
+        self.obstacles = []
+        self.dt = dt
+        self.time = 0.0
+
+    def add_robot(self, robot):
+        self.robots.append(robot)
+
+    def add_obstacle(self, obstacle):
+        self.obstacles.append(obstacle)
+
+    def step(self, actions):
+        # actions: list of (vx, vy, w) for each rob
+
+        for i, robot in enumerate(self.robots):
+
+            robot.step(actions[i], self.dt)
+
+            # collision()
+
+        self.time += self.dt
+
+    def get_time(self):
+        return self.time
+    
+    def get_agents(self) -> list[Robot]:
+        return self.agents
