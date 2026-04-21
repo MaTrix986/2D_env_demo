@@ -21,9 +21,18 @@ class World:
 
             robot.step(actions[i], self.dt)
 
-            # collision()
+            if self.collided(robot):
+                print(f"[waning] robot(id={robot.id}) has collided.")
 
         self.time += self.dt
+
+    def collided(self, robot):
+
+        for i, obstacle in enumerate(self.obstacles):
+            if robot.get_geometry().intersects(obstacle.get_geometry()):
+                return True
+            
+        return False
 
     def get_time(self):
         return self.time

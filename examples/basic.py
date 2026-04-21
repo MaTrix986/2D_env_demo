@@ -38,7 +38,7 @@ def main():
     world.add_obstacle(Obstacle(
         id=0,
         geometry=Polygon(
-            [[-1,-1], [-1,1], [1,1], [1,-1]]
+            [[-5,-1], [-5,1], [-3,1], [-3,-1]]
     ))
         
     )
