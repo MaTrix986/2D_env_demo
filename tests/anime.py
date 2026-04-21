@@ -2,13 +2,34 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-fig, ax = plt.subplots()
-x = np.linspace(0, 2 * np.pi, 100)
-line, = ax.plot(x, np.sin(x))
 
-def update(frame):
-   line.set_ydata(np.sin(x + frame / 10.0)) # 更新 y 数据
+class world:
+   def __init__(self, pos):
+      self.x = pos
+   def step(self):
+      self.x += 0.05
+
+   def get_x(self):
+      return self.x
+
+
+def update(_, world):
+   # print(frame)
+   line.set_ydata(world.get_x() * np.sin(x)) # 更新 y 数据
+   world.step()
    return line,
 
-ani = FuncAnimation(fig, update, frames=100, interval=20, blit=True)
+init_val = 0.1
+w = world(init_val)
+
+fig, ax = plt.subplots()
+ax.set_ylim(-1,1)
+x = np.linspace(0, 2 * np.pi, 100)
+line, = ax.plot(x, init_val * np.sin(x))
+
+
+
+
+
+ani = FuncAnimation(fig, update, frames=100, fargs=(w,), interval=20, blit=True)
 plt.show()
