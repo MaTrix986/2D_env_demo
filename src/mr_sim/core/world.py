@@ -3,8 +3,6 @@
 
 class World:
     def __init__(self, dt=0.1):
-        print("Initialized!")
-
         self.agents = []
         self.obstacles = []
         self.dt = dt
@@ -32,3 +30,6 @@ class World:
     
     def get_agents(self):
         return self.agents
+    
+    def get_obstacles(self):
+        return self.obstacles

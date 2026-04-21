@@ -16,6 +16,7 @@ class Env:
             self.fig, 
             self.update, 
             frames = self.time_gen, 
+            cache_frame_data = False,
             interval = 20, 
             blit = True
         )
@@ -54,7 +55,6 @@ class Env:
                 self.ax, agent.get_geometry(),
                 color='blue'
             )
-
             objs.append(obj)
 
             ori = draw_heading(
@@ -62,29 +62,15 @@ class Env:
                 length=1,
                 color="red"
             )
-
             objs.append(ori)
 
-            # pos = agent.pos[:2]
-            # r = 1
 
-            # circle = plt.Circle(
-            #     pos, r, 
-            #     color="blue", fill=True
-            # )
+        for obstacle in self.world.get_obstacles():
 
-            # self.ax.add_patch(circle)
-
-
-            # direction = pos + [
-            #     r * np.cos(agent.pos[2]),
-            #     r * np.sin(agent.pos[2])
-            # ]
-
-            # self.ax.plot(
-            #     [pos[0], direction[0]],
-            #     [pos[1], direction[1]],
-            #     'r-'
-            # )
+            obj = draw_geometry(
+                self.ax, obstacle.get_geometry(),
+                color='gray'
+            )
+            objs.append(obj)
 
         return objs
