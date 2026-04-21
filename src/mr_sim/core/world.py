@@ -1,5 +1,5 @@
 # src/mr_sim/core/world.py
-from mr_sim.agents.robot import Robot
+
 
 class World:
     def __init__(self, dt=0.1):
@@ -10,7 +10,7 @@ class World:
         self.dt = dt
         self.time = 0.0
 
-    def add_robot(self, robot: Robot):
+    def add_robot(self, robot):
         self.agents.append(robot)
 
     def add_obstacle(self, obstacle):
@@ -30,5 +30,5 @@ class World:
     def get_time(self):
         return self.time
     
-    def get_agents(self) -> list[Robot]:
+    def get_agents(self):
         return self.agents

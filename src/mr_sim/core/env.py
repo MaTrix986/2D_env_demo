@@ -1,11 +1,9 @@
 from mr_sim.core.world import World
+from mr_sim.utils.draw import draw_geometry, draw_heading
 
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
-
-
-
 
 class Env:
     def __init__(self, world: World):
@@ -23,8 +21,7 @@ class Env:
         )
         plt.show()
 
-    def update(self, frame):
-        print(frame)
+    def update(self, time):
         
         actions = []
         for agent in self.world.get_agents():
@@ -33,9 +30,9 @@ class Env:
             actions.append(action)
 
         self.world.step(actions)
-        self.plot()
+        objs = self.plot()
 
-        return self.ax,
+        return *objs, 
 
     def time_gen(self):
         time = 0
@@ -49,26 +46,45 @@ class Env:
         self.ax.set_xlim(-10, 10)
         self.ax.set_ylim(-10, 10)
 
+        objs = []
+
         for agent in self.world.get_agents():
 
-            pos = agent.state[:2]
-            r = 1
-
-            circle = plt.Circle(
-                pos, r, 
-                color="blue", fill=True
+            obj = draw_geometry(
+                self.ax, agent.get_geometry(),
+                color='blue'
             )
 
-            self.ax.add_patch(circle)
+            objs.append(obj)
 
-
-            direction = pos + [
-                r * np.cos(agent.state[2]),
-                r * np.sin(agent.state[2])
-            ]
-
-            self.ax.plot(
-                [pos[0], direction[0]],
-                [pos[1], direction[1]],
-                'r-'
+            ori = draw_heading(
+                self.ax, agent.get_pos(),
+                length=1,
+                color="red"
             )
+
+            objs.append(ori)
+
+            # pos = agent.pos[:2]
+            # r = 1
+
+            # circle = plt.Circle(
+            #     pos, r, 
+            #     color="blue", fill=True
+            # )
+
+            # self.ax.add_patch(circle)
+
+
+            # direction = pos + [
+            #     r * np.cos(agent.pos[2]),
+            #     r * np.sin(agent.pos[2])
+            # ]
+
+            # self.ax.plot(
+            #     [pos[0], direction[0]],
+            #     [pos[1], direction[1]],
+            #     'r-'
+            # )
+
+        return objs
