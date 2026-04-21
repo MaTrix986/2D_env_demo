@@ -10,8 +10,8 @@ class World:
         self.dt = dt
         self.time = 0.0
 
-    def add_robot(self, robot):
-        self.robots.append(robot)
+    def add_robot(self, robot: Robot):
+        self.agents.append(robot)
 
     def add_obstacle(self, obstacle):
         self.obstacles.append(obstacle)
@@ -19,7 +19,7 @@ class World:
     def step(self, actions):
         # actions: list of (vx, vy, w) for each rob
 
-        for i, robot in enumerate(self.robots):
+        for i, robot in enumerate(self.agents):
 
             robot.step(actions[i], self.dt)
 

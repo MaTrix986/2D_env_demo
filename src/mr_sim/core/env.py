@@ -4,11 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
 
-def frame_gen():
-    frame = 0
-    while True:
-        frame += 1
-        yield frame
+
+
 
 class Env:
     def __init__(self, world: World):
@@ -20,8 +17,8 @@ class Env:
         ani = FuncAnimation(
             self.fig, 
             self.update, 
-            frames = frame_gen, 
-            interval = self.world.dt * 1000, 
+            frames = self.time_gen, 
+            interval = 20, 
             blit = True
         )
         plt.show()
@@ -39,6 +36,12 @@ class Env:
         self.plot()
 
         return self.ax,
+
+    def time_gen(self):
+        time = 0
+        while True:
+            time += self.world.dt
+            yield time
 
 
     def plot(self):

@@ -4,31 +4,30 @@ from mr_sim.core.env import Env
 from mr_sim.planners.base_controller import BaseController
 
 class SimpleController(BaseController):
-    def __init__(self):
-        pass
+    def __init__(self, vx, vy, omega):
+        self.vx = vx
+        self.vy = vy
+        self.omega = omega
 
     def compute_action(self, obs):
-        return (0.5, 0.0, 1.0)
-
-        return super().compute_action(obs)
+        return (self.vx, self.vy, self.omega)
 
 
 def main():
 
     world = World(dt = 0.1)
 
-
-    ctrler = SimpleController()
+    ctrler1 = SimpleController(-1, 0, 0)
     world.add_robot(Robot(
         id=0,
         x=-2, y=0,
-        controller=ctrler
+        controller=ctrler1
     ))
-
+    ctrler2 = SimpleController(1, 1, 1)
     world.add_robot(Robot(
         id=1,
         x=2, y=1,
-        controller=ctrler
+        controller=ctrler2
     ))
 
 
@@ -39,22 +38,6 @@ def main():
     env = Env(world)
 
     env.render()
-
-    # fig, ax = plt.subplots()
-    # x = np.linspace(0, 2 * np.pi, 100)
-    # line, = ax.plot(x, np.sin(x))
-
-    # def update(frame):
-    # print(frame)
-    # line.set_ydata(np.sin(x + frame / 10.0)) # 更新 y 数据
-    # return line,
-
-    # ani = FuncAnimation(fig, update, frames=100, interval=20, blit=True)
-    # plt.show()
-
-
-
-
 
 
 if __name__ == "__main__":

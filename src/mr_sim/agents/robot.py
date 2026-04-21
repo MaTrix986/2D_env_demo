@@ -1,10 +1,14 @@
+from typing import TYPE_CHECKING
+
 import numpy as np
 from mr_sim.utils.obs import Observation
-from mr_sim.core.world import World
-from mr_sim.planners.base_controller import BaseController
+
+if TYPE_CHECKING:
+    from mr_sim.core.world import World
+    from mr_sim.planners.base_controller import BaseController
 
 class Robot:
-    def __init__(self, id , x, y, controller: BaseController):
+    def __init__(self, id , x, y, controller: 'BaseController'):
         self.id = id
         # posx, posy, ori
         self.state = np.array([
@@ -28,7 +32,7 @@ class Robot:
 
         self.vel = action
 
-    def sense(self, world: World):
+    def sense(self, world: 'World'):
         obs = Observation(world.get_time())
 
         return obs
