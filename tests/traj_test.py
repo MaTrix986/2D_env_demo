@@ -3,8 +3,10 @@ from mr_sim.planners import TrajController
 from mr_sim.utils.traj import traj_gen
 
 
-def test_reachable(x, y, omega):
+def test_reachable(pose):
     # 假设 (5, 5) 处有一个半径为 2 的圆形障碍物
+    x = pose[0]
+    y = pose[1]
     if (x - 5)**2 + (y - 5)**2 < 4:
         return False
     return True

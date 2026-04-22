@@ -23,7 +23,8 @@ def traj_gen(pose, goal, reachable, bounds=((0, 10), (0, 10), (-np.pi, np.pi)), 
     # 在边界内随机采样，只保留 reachable 为 True 的节点
     while len(nodes) < num_samples + 2:
         sample = np.array([np.random.uniform(b[0], b[1]) for b in bounds])
-        if reachable(*sample):
+        # print(sample)
+        if reachable(sample):
             nodes.append(sample)
             
     nodes = np.array(nodes)
@@ -38,7 +39,7 @@ def traj_gen(pose, goal, reachable, bounds=((0, 10), (0, 10), (-np.pi, np.pi)), 
         for i in range(1, steps):
             t = i / steps
             q_interp = q1 + t * (q2 - q1)
-            if not reachable(*q_interp):
+            if not reachable(q_interp):
                 return False
         return True
 

@@ -46,6 +46,7 @@ class Robot:
         obs = Observation(
             world.get_time()
         )
+        # print(obs.time)
         return obs
 
     def fk(self, pose):

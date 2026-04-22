@@ -41,6 +41,7 @@ class World:
 
 
     def get_time(self):
+        # print(self.time)
         return self.time
     
     def get_agents(self):
