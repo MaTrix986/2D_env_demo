@@ -1,4 +1,3 @@
-from mr_sim.core.world import World
 from mr_sim.utils.draw import draw_geometry, draw_heading
 
 import matplotlib.pyplot as plt
@@ -6,7 +5,7 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 
 class Env:
-    def __init__(self, world: World):
+    def __init__(self, world):
         self.world = world
         self.fig, self.ax = plt.subplots()
 
@@ -16,6 +15,7 @@ class Env:
             self.fig, 
             self.update, 
             frames = self.time_gen, 
+            init_func=self.init_update,
             cache_frame_data = False,
             interval = 20, 
             blit = True
@@ -23,7 +23,7 @@ class Env:
         plt.show()
 
     def update(self, time):
-        
+        # dynamic
         actions = []
         for agent in self.world.get_agents():
             obs = agent.sense(self.world)
@@ -31,9 +31,21 @@ class Env:
             actions.append(action)
 
         self.world.step(actions)
-        objs = self.plot()
 
-        return *objs, 
+        objs1 = self.plot_agents()
+        objs2 = self.plot_obstacles()
+
+        return *objs1, *objs2,  
+
+
+    def init_update(self):
+        # static
+        self.ax.set_xlim(-10, 10)
+        self.ax.set_ylim(-10, 10)
+        self.ax.set_aspect('equal')
+        objs = self.plot_obstacles()
+
+        return *objs,
 
     def time_gen(self):
         time = 0
@@ -42,10 +54,7 @@ class Env:
             yield time
 
 
-    def plot(self):
-        self.ax.clear()
-        self.ax.set_xlim(-10, 10)
-        self.ax.set_ylim(-10, 10)
+    def plot_agents(self):
 
         objs = []
 
@@ -64,7 +73,10 @@ class Env:
             )
             objs.append(ori)
 
-
+        return objs
+    
+    def plot_obstacles(self):
+        objs = []
         for obstacle in self.world.get_obstacles():
 
             obj = draw_geometry(

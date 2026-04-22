@@ -23,7 +23,7 @@ def main():
     ctrler1 = SimpleController(-1, 0, 0)
     world.add_robot(Robot(
         id=0,
-        init_pos=np.array([2.0, 0.0, 0.0]),
+        init_pos=np.array([2.0, 0.0, np.pi]),
         controller=ctrler1,
         shape=rob_shape,
     ))
@@ -39,12 +39,14 @@ def main():
         id=0,
         geometry=Polygon(
             [[-5,-1], [-5,1], [-3,1], [-3,-1]]
+    )))
+
+    world.add_obstacle(Obstacle(
+        id=0,
+        geometry=Point([7, 5]).buffer(1)
     ))
-        
-    )
 
     env = Env(world)
-
     env.render()
 
 

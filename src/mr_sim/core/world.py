@@ -21,10 +21,22 @@ class World:
 
             robot.step(actions[i], self.dt)
 
-            if self.collided(robot):
-                print(f"[waning] robot(id={robot.id}) has collided.")
+            self.check_collision(robot)
+
+            
 
         self.time += self.dt
+
+    def check_collision(self, robot):
+        geom_rob = robot.get_geometry()
+
+        for i, obstacle in enumerate(self.obstacles):
+            geom_obs = obstacle.get_geometry()
+
+            if geom_rob.intersects(geom_obs):
+                # colli_area = geom_obs.intersection(geom_obs)
+                # coords = list(colli_area.coords)
+                print(f"[waning] robot(id={robot.id}) has collided.")
 
     def collided(self, robot):
 
