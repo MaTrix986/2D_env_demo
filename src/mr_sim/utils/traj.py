@@ -3,7 +3,7 @@ import networkx as nx
 from scipy.spatial import KDTree
 from scipy.interpolate import CubicSpline
 
-def traj_gen(pose, goal, reachable, bounds=((0, 10), (0, 10), (-np.pi, np.pi)), num_samples=300, k_neighbors=15):
+def traj_gen(pose, goal, reachable, bounds=((-10, 10), (-10, 10), (-np.pi, np.pi)), num_samples=300, k_neighbors=15):
     """
     二维环境下机器人的位形空间 (x, y, omega) 轨迹规划
     基于 PRM (概率路图法)

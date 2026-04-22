@@ -1,6 +1,7 @@
 # src/mr_sim/core/world.py
 from shapely.strtree import STRtree
 from shapely.ops import unary_union
+from shapely import affinity
 
 class Obstacle:
     def __init__(self, id, geometry):
@@ -11,6 +12,12 @@ class Obstacle:
         self.geometry = unary_union([
             self.geometry, geometry
         ])
+
+    # def move(self, direction):
+    #     self.geometry = affinity.translate(
+    #         self.geometry, *direction
+    #     )
+
 
     def get_geometry(self):
         return self.geometry
