@@ -1,4 +1,4 @@
-from mr_sim.utils.obs import Observation
+from mr_sim.agents.obs import Observation
 
 class BaseController:
     def __init__(self):

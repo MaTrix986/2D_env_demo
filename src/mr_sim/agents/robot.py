@@ -5,13 +5,13 @@ from shapely.geometry import Polygon, Point
 from shapely import affinity
 # from shapely.prepared import prep
 
-from mr_sim.utils.obs import Observation
+from mr_sim.agents.obs import Observation
 
 class Robot:
-    def __init__(self, id , init_pos, controller, shape=Point(0,0).buffer(0.5)):
+    def __init__(self, id , init_pose, shape=Point(0,0).buffer(0.5)):
         self.id = id
-        # posx, posy, ori
-        self.pos = init_pos
+        # posex, posey, ori
+        self.pose = init_pose
         
         # vx, vy, omega
         self.vel = np.array([
@@ -22,23 +22,25 @@ class Robot:
         self.geometry = None
         self.update_geometry()
 
+        self.controller = None
+
+    def control(self, controller):
         self.controller = controller
 
     def step(self, action, dt):
 
         vx, vy, w = action
         
-        self.pos[0] += vx * dt
-        self.pos[1] += vy * dt
-        self.pos[2] += w * dt
+        self.pose[0] += vx * dt
+        self.pose[1] += vy * dt
+        self.pose[2] += w * dt
 
         self.vel = action
 
         self.update_geometry()
 
     def update_geometry(self):
-        rotated = affinity.rotate(self.shape, self.pos[2], use_radians=True)
-        self.geometry = affinity.translate(rotated, self.pos[0], self.pos[1])
+        self.geometry = self.fk(self.pose)
 
     def sense(self, world):
         obs = Observation(
@@ -46,8 +48,14 @@ class Robot:
         )
         return obs
 
-    def get_pos(self):
-        return self.pos
+    def fk(self, pose):
+        rotated = affinity.rotate(self.shape, pose[2], use_radians=True)
+        geom = affinity.translate(rotated, pose[0], pose[1])
+        return geom
+
+
+    def get_pose(self):
+        return self.pose
     
     def get_geometry(self):
         return self.geometry

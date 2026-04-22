@@ -4,8 +4,8 @@ from matplotlib.animation import FuncAnimation
 
 
 class world:
-   def __init__(self, pos):
-      self.x = pos
+   def __init__(self, pose):
+      self.x = pose
    def step(self):
       self.x += 0.05
 

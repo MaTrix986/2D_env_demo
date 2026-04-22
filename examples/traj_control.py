@@ -1,67 +1,50 @@
-from mr_sim.core.world import Simulator
-from mr_sim.agents.robot import Robot
-from mr_sim.core.env import Visualizer
-from mr_sim.planners.base_controller import BaseController
+from mr_sim import *
+from mr_sim.planners.traj_controller import TrajController
+import numpy as np
+from shapely.geometry import Polygon, Point
 
-class TrajController(BaseController):
-    def __init__(self, destination):
-        self.dest = destination
-
-    def compute_action(self, obs):
-
-
-        return super().compute_action(obs)
 
 
 def main():
 
-    sim = Simulator(dt = 0.1)
-
-
-    ctrler = TrajController([0, 0])
-    sim.add_robot(Robot(
+    world = World(dt = 0.1)
+    world.add_obstacle(Obstacle(
         id=0,
-        x=-2, y=0,
-        controller=ctrler
+        geometry=Polygon(
+            [[-5,-1], [-5,1], [-3,1], [-3,-1]]
+    )))
+
+    world.add_obstacle(Obstacle(
+        id=0,
+        geometry=Point([7, 5]).buffer(1)
     ))
 
-    sim.add_robot(Robot(
+
+    # shape = Point(0,0).buffer(0.5)
+    rob_shape = Polygon(
+        [[-1,-1], [-1,1], [1,1], [1,-1]]
+    )
+
+    
+    world.add_robot(Robot(
+        id=0,
+        init_pose=np.array([2.0, 0.0, np.pi]),
+        controller=ctrler1,
+        shape=rob_shape,
+    ))
+    
+    world.add_robot(Robot(
         id=1,
-        x=2, y=1,
-        controller=ctrler
+        init_pose=np.array([-1.0, -5.0, 0.0]),
+        controller=ctrler2,
+        shape=rob_shape,
     ))
 
+    
 
-    # sim.add_obstacle(
+    env = Env(world)
+    env.render()
 
-    # )
-
-    viz = Visualizer(sim)
-
-    viz.render()
-
-    # fig, ax = plt.subplots()
-    # x = np.linspace(0, 2 * np.pi, 100)
-    # line, = ax.plot(x, np.sin(x))
-
-    # def update(frame):
-    # print(frame)
-    # line.set_ydata(np.sin(x + frame / 10.0)) # 更新 y 数据
-    # return line,
-
-    # ani = FuncAnimation(fig, update, frames=100, interval=20, blit=True)
-    # plt.show()
-
-
-
-
-
-def get_action():
-    action = [
-        (0.5, 0.0, 1.0),
-        (-0.5, 0.0, 0.0)
-    ]
-    return action
 
 if __name__ == "__main__":
     main()

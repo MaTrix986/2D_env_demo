@@ -39,9 +39,9 @@ def draw_geometry(ax, geometry, **kwargs):
                           zorder=kwargs.get('zorder', 3))
 
 
-def draw_heading(ax, pos, length=0.5, **kwargs):
+def draw_heading(ax, pose, length=0.5, **kwargs):
 
-    x, y, theta = pos
+    x, y, theta = pose
     dx = length * np.cos(theta)
     dy = length * np.sin(theta)
     

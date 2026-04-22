@@ -1,5 +1,5 @@
 # src/mr_sim/core/world.py
-
+from shapely.strtree import STRtree
 
 class World:
     def __init__(self, dt=0.1):
@@ -23,28 +23,22 @@ class World:
 
             self.check_collision(robot)
 
-            
-
         self.time += self.dt
 
     def check_collision(self, robot):
         geom_rob = robot.get_geometry()
 
-        for i, obstacle in enumerate(self.obstacles):
-            geom_obs = obstacle.get_geometry()
+        geom_obstacles = [obs.get_geometry() for obs in self.obstacles]
+        for i, agent in enumerate(self.agents):
+            if robot.id != agent.id:
+                geom_obstacles.append(agent.get_geometry())
+        
+        tree = STRtree(geom_obstacles)
+        collided_inds = tree.query(geom_rob, predicate='intersects')
 
-            if geom_rob.intersects(geom_obs):
-                # colli_area = geom_obs.intersection(geom_obs)
-                # coords = list(colli_area.coords)
-                print(f"[waning] robot(id={robot.id}) has collided.")
+        for i in collided_inds:
+            print(f"[warning] robot(id={robot.id}) has collided.")
 
-    def collided(self, robot):
-
-        for i, obstacle in enumerate(self.obstacles):
-            if robot.get_geometry().intersects(obstacle.get_geometry()):
-                return True
-            
-        return False
 
     def get_time(self):
         return self.time

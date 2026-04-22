@@ -67,7 +67,7 @@ class Env:
             objs.append(obj)
 
             ori = draw_heading(
-                self.ax, agent.get_pos(),
+                self.ax, agent.get_pose(),
                 length=1,
                 color="red"
             )

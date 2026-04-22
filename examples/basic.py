@@ -1,4 +1,5 @@
 from mr_sim import *
+from mr_sim.planners import BaseController
 import numpy as np
 from shapely.geometry import Polygon, Point
 
@@ -16,25 +17,6 @@ def main():
 
     world = World(dt = 0.1)
 
-    # shape = Point(0,0).buffer(0.5)
-    rob_shape = Polygon(
-        [[-1,-1], [-1,1], [1,1], [1,-1]]
-    )
-    ctrler1 = SimpleController(-1, 0, 0)
-    world.add_robot(Robot(
-        id=0,
-        init_pos=np.array([2.0, 0.0, np.pi]),
-        controller=ctrler1,
-        shape=rob_shape,
-    ))
-    ctrler2 = SimpleController(1, 1, 1)
-    world.add_robot(Robot(
-        id=1,
-        init_pos=np.array([-1.0, -5.0, 0.0]),
-        controller=ctrler2,
-        shape=rob_shape,
-    ))
-
     world.add_obstacle(Obstacle(
         id=0,
         geometry=Polygon(
@@ -46,6 +28,33 @@ def main():
         geometry=Point([7, 5]).buffer(1)
     ))
 
+
+    # shape = Point(0,0).buffer(0.5)
+    rob_shape = Polygon(
+        [[-1,-1], [-1,1], [1,1], [1,-1]]
+    )
+    ctrler1 = SimpleController(-1, 0, 0)
+    rob1 = Robot(
+        id=0,
+        init_pose=np.array([2.0, 0.0, np.pi]),
+        shape=rob_shape,
+    )
+
+    rob1.control(ctrler1)
+    world.add_robot(rob1)
+
+    ctrler2 = SimpleController(1, 1, 1)
+    rob2 = Robot(
+        id=1,
+        init_pose=np.array([-1.0, -5.0, 0.0]),
+        shape=rob_shape,
+    )
+    rob2.control(ctrler2)
+    world.add_robot(rob2)
+
+
+
+   
     env = Env(world)
     env.render()
 
