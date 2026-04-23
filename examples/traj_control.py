@@ -1,5 +1,6 @@
 from mr_sim import *
 from mr_sim.planners.traj_controller import TrajController
+from mr_sim.sensors import BaseSensor
 
 import numpy as np
 from shapely.geometry import Polygon, Point
@@ -7,8 +8,10 @@ from shapely import affinity
 
 def main():
 
+
     world = World(dt = 0.1)
 
+    # Obstacle Definition
     wall_down = Polygon(
             [[-5,-10], [-5,-0.5], [-3,-0.5], [-3,-10]]
     )
@@ -29,6 +32,7 @@ def main():
         geometry=Point([7, 5]).buffer(1)
     ))
 
+    # Agents Definition
     rob_shape1 = Polygon(
         [[-1.5,-0.1], [-1.5,0.1], [1.5,0.1], [1.5,-0.1]]
     )
@@ -45,7 +49,7 @@ def main():
     ctrler1 = TrajController(
         rob1, [-9, 0, np.pi], world.get_obstacles()
     )
-    rob1.control(ctrler1)
+    rob1.add_controller(ctrler1)
     world.add_robot(rob1)
 
     rob2 = Robot(
@@ -56,10 +60,14 @@ def main():
     ctrler2 = TrajController(
         rob2, [9, 9, np.pi/4], world.get_obstacles()
     )
-    rob2.control(ctrler2)
+    rob2.add_controller(ctrler2)
     world.add_robot(rob2)
 
+    sensor = BaseSensor()
+    rob1.add_sensor(sensor)
+    rob2.add_sensor(sensor)
 
+    # Build env
     env = Env(world)
     env.render()
 

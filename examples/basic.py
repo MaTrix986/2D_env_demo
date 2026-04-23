@@ -1,5 +1,6 @@
 from mr_sim import *
 from mr_sim.planners import BaseController
+from mr_sim.sensors import BaseSensor
 import numpy as np
 from shapely.geometry import Polygon, Point
 
@@ -29,7 +30,7 @@ def main():
     ))
 
 
-    # shape = Point(0,0).buffer(0.5)
+    # rob_shape = Point(0,0).buffer(0.5)
     rob_shape = Polygon(
         [[-1,-1], [-1,1], [1,1], [1,-1]]
     )
@@ -40,7 +41,7 @@ def main():
         shape=rob_shape,
     )
 
-    rob1.control(ctrler1)
+    rob1.add_controller(ctrler1)
     world.add_robot(rob1)
 
     ctrler2 = SimpleController(1, 1, 1)
@@ -49,10 +50,12 @@ def main():
         init_pose=np.array([-1.0, -5.0, 0.0]),
         shape=rob_shape,
     )
-    rob2.control(ctrler2)
+    rob2.add_controller(ctrler2)
     world.add_robot(rob2)
 
-
+    sensor = BaseSensor()
+    rob1.add_sensor(sensor)
+    rob2.add_sensor(sensor)
 
    
     env = Env(world)

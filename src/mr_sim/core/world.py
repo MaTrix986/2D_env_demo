@@ -13,10 +13,10 @@ class Obstacle:
             self.geometry, geometry
         ])
 
-    # def move(self, direction):
-    #     self.geometry = affinity.translate(
-    #         self.geometry, *direction
-    #     )
+    def move(self, x, y):
+        self.geometry = affinity.translate(
+            self.geometry, x, y
+        )
 
 
     def get_geometry(self):

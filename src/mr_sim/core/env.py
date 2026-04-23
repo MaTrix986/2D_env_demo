@@ -24,11 +24,13 @@ class Env:
 
     def update(self, time):
         # dynamic
-        actions = []
-        for agent in self.world.get_agents():
-            obs = agent.sense(self.world)
-            action = agent.controller.compute_action(obs)
-            actions.append(action)
+        agents = self.world.get_agents()
+        actions = [() for _ in range(len(agents))]
+        for i, agent in enumerate(agents):
+            if agent.sensor and agent.controller:
+                obs = agent.sensor.sense(self.world)
+                action = agent.controller.compute_action(obs)
+                actions[i] = action
 
         self.world.step(actions)
 
