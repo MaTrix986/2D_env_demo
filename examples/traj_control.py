@@ -13,9 +13,9 @@ def main():
 
     # Obstacle Definition
     wall_down = Polygon(
-            [[-5,-10], [-5,-0.5], [-3,-0.5], [-3,-10]]
+            [[-5,-10], [-5,-1], [-3,-1], [-3,-10]]
     )
-    wall_up = affinity.translate(wall_down, 0, 10.5)
+    wall_up = affinity.translate(wall_down, 0, 11)
 
     world.add_obstacle(Obstacle(
         id=0,

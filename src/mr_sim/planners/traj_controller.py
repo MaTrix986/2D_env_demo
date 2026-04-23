@@ -21,8 +21,8 @@ class TrajController(BaseController):
             init_pose, goal,
             self.reachable,
             # bounds=((-10, 10), (-10, 10), (-np.pi, np.pi)),
-            num_samples=2000,
-            k_neighbors=30
+            num_samples=1000,
+            k_neighbors=15
         )
 
     def compute_action(self, obs):

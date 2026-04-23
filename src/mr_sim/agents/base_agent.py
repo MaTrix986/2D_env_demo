@@ -1,15 +1,8 @@
-from mr_sim.agents.base_agent import BaseAgent
-
 import numpy as np
-from shapely.geometry import Polygon, Point
-from shapely import affinity
-# from shapely.prepared import prep
 
-
-class Robot(BaseAgent):
-    def __init__(self, id , init_pose, shape=Point(0,0).buffer(0.5)):
+class BaseAgent:
+    def __init__(self, id , init_pose, shape):
         self.id = id
-        # posex, posey, ori
         self.pose = init_pose
         
         # vx, vy, omega
@@ -31,24 +24,13 @@ class Robot(BaseAgent):
         self.sensor = sensor
 
     def step(self, action, dt):
-        if action:
-            vx, vy, w = action
-            
-            self.pose[0] += vx * dt
-            self.pose[1] += vy * dt
-            self.pose[2] += w * dt
-
-            self.vel = action
-
-            self.update_geometry()
+        pass
 
     def update_geometry(self):
         self.geometry = self.fk(self.pose)
 
     def fk(self, pose):
-        rotated = affinity.rotate(self.shape, pose[2], use_radians=True)
-        geom = affinity.translate(rotated, pose[0], pose[1])
-        return geom
+        pass
 
 
     def get_pose(self):
