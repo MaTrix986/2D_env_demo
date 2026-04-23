@@ -41,14 +41,7 @@ class Lidar(BaseSensor):
 
             if not intersection.is_empty:
                 
-                if intersection.geom_type == 'Point':
-                    depth[i] = center.distance(intersection)
-                elif intersection.geom_type == 'MultiPoint':
-                    dists = [center.distance(p) for p in intersection.geoms]
-                    depth[i] = min(dists)
-
-                elif 'LineString' in intersection.geom_type:
-                    depth[i] = center.distance(intersection)
+                depth[i] = center.distance(intersection)
 
                 # if self.robot.id == 0: print(depth[i])
 

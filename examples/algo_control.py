@@ -1,5 +1,6 @@
 from mr_sim import *
 from mr_sim.planners import MazeController
+# from mr_sim.planners import KeyboardController
 from mr_sim.sensors import Lidar
 
 import numpy as np
@@ -23,9 +24,10 @@ def main():
         shape=rob_shape,
     )
 
-    ctrler1 = MazeController(rob1, destination=np.array([8.5, 9.5]), dist_wall=0.05)
+    ctrler1 = MazeController(rob1, destination=np.array([8.5, 9.5]), dist_wall=0.5)
+    # ctrler1 = KeyboardController(rob1)
     rob1.add_controller(ctrler1)
-    sensor1 = Lidar(rob1, max_range=1.0)
+    sensor1 = Lidar(rob1, max_range=2.0)
     rob1.add_sensor(sensor1)
     world.add_robot(rob1)
 
@@ -34,7 +36,7 @@ def main():
         init_pose=np.array([8.5, 9.5, -np.pi/2]),
         shape=rob_shape,
     )
-    ctrler2 = MazeController(rob2 , destination=np.array([-8.5, -9.5]), dist_wall=0.05)
+    ctrler2 = MazeController(rob2 , destination=np.array([-8.5, -9.5]), dist_wall=0.5)
     rob2.add_controller(ctrler2)
     sensor2 = Lidar(rob2, max_range=1.0)
     rob2.add_sensor(sensor2)
